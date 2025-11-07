@@ -158,25 +158,25 @@ document.getElementById('event-form').addEventListener('submit', handleFormSubmi
 function addVariantRow() {
     // TODO:
     // 1. Clone .variant-row template
-//  const row_variant = document.createElement("div");
-//     row_variant.className = "variant-row";
-//     // 2. Set inner HTML for the row
-//     row_variant.innerHTML = `
-//         <input type="text" class="input variant-row__name" placeholder="Variant name (e.g., 'Early Bird')" />
-//         <input type="number" class="input variant-row__qty" placeholder="Qty" min="1" />
-//         <input type="number" class="input variant-row__value" placeholder="Value" step="0.01" />
-//         <select class="select variant-row__type">
-//             <option value="fixed">Fixed Price</option>
-//             <option value="percentage">Percentage Off</option>
-//         </select>
-//         <button type="button" class="btn btn--danger btn--small variant-row__remove">Remove</button>
-//     `;    
-//     // 2. Append to #variants-list
-//     document.getElementById("variants-list").appendChild(row_variant);
-//     // 3. Add remove listener to new row's remove button
-//     row_variant.querySelector(".variant-row__remove").addEventListener('click',function (){
-//         removeVariantRow(this);
-//     })
+ const row_variant = document.createElement("div");
+    row_variant.className = "variant-row";
+    // 2. Set inner HTML for the row
+    row_variant.innerHTML = `
+        <input type="text" class="input variant-row__name" placeholder="Variant name (e.g., 'Early Bird')" />
+        <input type="number" class="input variant-row__qty" placeholder="Qty" min="1" />
+        <input type="number" class="input variant-row__value" placeholder="Value" step="0.01" />
+        <select class="select variant-row__type">
+            <option value="fixed">Fixed Price</option>
+            <option value="percentage">Percentage Off</option>
+        </select>
+        <button type="button" class="btn btn--danger btn--small variant-row__remove">Remove</button>
+    `;    
+    // 2. Append to #variants-list
+    document.getElementById("variants-list").appendChild(row_variant);
+    // 3. Add remove listener to new row's remove button
+    row_variant.querySelector(".variant-row__remove").addEventListener('click',function (){
+        removeVariantRow(this);
+    })
 }
 
 document.getElementById('btn-add-variant').addEventListener('click', addVariantRow);
@@ -184,7 +184,7 @@ document.getElementById('btn-add-variant').addEventListener('click', addVariantR
 function removeVariantRow(button){
     // TODO:
     // Find closest .variant-row and remove it 
-    // button.closest('.variant-row').remove();
+    button.closest('.variant-row').remove();
 }
 
 // ============================================
