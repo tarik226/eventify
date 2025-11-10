@@ -319,24 +319,26 @@ function renderPagination(totalItems, currentPage, perPage) {
 function handleTableActionClick(e) {
   // TODO:
   // 1. Check if e.target is [data-action]
-  // events.forEach((element) => {
-  //   if (element.id == e.target.dataset.eventId) {
-  //     let action =
-  //       element.dataset.action == "details" ? 1 : dataset.action == "edit" ? 2 : 3;
-  //     switch (action) {
-  //       case 1:
-  //         showEventDetails(element.id);
-  //         break;
-  //       case 2:
-  //         editEvent(element.id);
-  //         break;
-  //       case 3:
-  //         archiveEvent(element.id);
-  //       default:
-  //         return;
-  //     }
-  //   }
-  // });
+  const target = e.target.closest("[data-action]");
+ 
+      let action =target.dataset.action ;
+
+        //== "details" ? 1 : dataset.action == "edit" ? 2 : 3;
+      switch (action) {
+        case 'details':
+          showEventDetails(target.dataset.eventId);
+          console.log('showEventDetails');
+          break;
+        case 'edit':
+          editEvent(target.dataset.eventId);
+          console.log('editEvent');
+          break;
+        case 'archive':
+          archiveEvent(target.dataset.eventId);
+          console.log('archiveEvent');
+        default:
+          return;
+      }
 
   // 2. Get action and eventId from attributes
   // 3. Call appropriate function (showDetails, editEvent, archiveEvent)
@@ -350,19 +352,19 @@ document
 function showEventDetails(eventId) {
   // TODO:
   // 1. Find event by id in events array
-  //   events.forEach((element) => {
-  //     if (element.id == eventId) {
-  //       let modal = document.getElementById("modal-body");
-  //       modal.innerHTML = `<p>${element.id}</p> <p>${element.title}</p> <p>${
-  //         element.image
-  //       }</p> <p>${element.description}</p> <p>${element.seats}</p> <p>${
-  //         element.price
-  //       }</p>
-  //             <ul>${element.map((e) => <li>${e.variants}</li>)}</ul>
-  //             `;
-  //       modal.classList.remove("is-hidden");
-  //     }
-  //   });
+    events.forEach((element) => {
+      if (element.id == eventId) {
+        let modal = document.getElementById("modal-body");
+        modal.innerHTML = `<><p>${element.id}</p> <p>${element.title}</p> <p>${
+          element.image
+        }</p> <p>${element.description}</p> <p>${element.seats}</p> <p>${
+          element.price
+        }</p>
+              <ul>${element.variants.map((e) => <li>${e.name}</li>)}</ul>
+              </>`;
+        modal.classList.remove("is-hidden");
+      }
+    });
   // 2. Populate #modal-body with event details
   // 3. Remove .is-hidden from #event-modal
 }
