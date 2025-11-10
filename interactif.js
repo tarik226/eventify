@@ -327,15 +327,15 @@ function handleTableActionClick(e) {
       switch (action) {
         case 'details':
           showEventDetails(target.dataset.eventId);
-          console.log('showEventDetails');
+          //console.log('showEventDetails'+target.dataset.eventId);
           break;
         case 'edit':
           editEvent(target.dataset.eventId);
-          console.log('editEvent');
+          //console.log('editEvent'+target.dataset.eventId);
           break;
         case 'archive':
           archiveEvent(target.dataset.eventId);
-          console.log('archiveEvent');
+          //console.log('archiveEvent');
         default:
           return;
       }
@@ -354,15 +354,22 @@ function showEventDetails(eventId) {
   // 1. Find event by id in events array
     events.forEach((element) => {
       if (element.id == eventId) {
+        console.log(element.id);
         let modal = document.getElementById("modal-body");
-        modal.innerHTML = `<><p>${element.id}</p> <p>${element.title}</p> <p>${
-          element.image
-        }</p> <p>${element.description}</p> <p>${element.seats}</p> <p>${
-          element.price
-        }</p>
-              <ul>${element.variants.map((e) => <li>${e.name}</li>)}</ul>
-              </>`;
-        modal.classList.remove("is-hidden");
+        console.log(modal);
+        modal.innerHTML = `<div>
+      <p><strong>ID:</strong> ${element.id}</p>
+      <p><strong>Title:</strong> ${element.title}</p>
+      <p><strong>Image:</strong> ${element.image}</p>
+      <p><strong>Description:</strong> ${element.description}</p>
+      <p><strong>Seats:</strong> ${element.seats}</p>
+      <p><strong>Price:</strong> ${element.price}</p>
+      <ul>
+        ${element.variants.map((variant) => `<li>${variant}</li>`).join("")}
+      </ul>
+    </div>`;
+        //modal.classList.remove("is-hidden");
+        modal.closest('#event-modal').classList.remove("is-hidden");
       }
     });
   // 2. Populate #modal-body with event details
@@ -511,7 +518,7 @@ function openModal(title, content) {
 function closeModal() {
   // TODO:
   // Add .is-hidden to #event-modal
-  // document.getElementById("event-modal").classList.add("is-hidden");
+  document.getElementById("event-modal").classList.add("is-hidden");
 }
 
 // // Listen to close button and overlay click
