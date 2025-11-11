@@ -379,40 +379,58 @@ function showEventDetails(eventId) {
 function editEvent(eventId) {
   // TODO:
   // 1. Find event by id
-  // events.forEach((element) => {
-  //   if (element.id == eventId) {
-  //     switchScreen(add);
-  //     let variantssection = document.getElementById("variants-list");
-  //     element.variants.forEach((e) => {
-  //       let div = document.createElement("div");
-  //       div.classList.add("variant-row");
-  //       div.innerHTML = `         <input type="text" value=${e.name} class="input variant-row__name" placeholder="Variant name (e.g., 'Early Bird')" />
-  //                                       <input type="number" value=${e.qty} class="input variant-row__qty" placeholder="Qty" min="1" />
-  //                                       <input type="number" value=${e.value} class="input variant-row__value" placeholder="Value" step="0.01" />
-  //                                       <select class="select variant-row__type">
-  //                                           <option value="fixed" ${selectedFixed}>Fixed Price</option>
-  //                                           <option value="percentage" ${selectedPercentage}>Percentage Off</option>
-  //                                       </select>
-  //                                       <button type="button" class="btn btn--danger btn--small variant-row__remove">Remove</button>`;
-  //       variantssection.appendChild(div);
-  //       document.querySelector('[type=\'submit\']').textContent='Save Changes';
-  //     });
-  //     document.getElementById("event-form").addEventListener("submit", () => {
-  //       element.title = document.getElementById("event-title").value;
-  //       element.image = document.getElementById("event-image").value;
-  //       element.description =
-  //         document.getElementById("event-description").value;
-  //       element.seats = document.getElementById("event-seats").value;
-  //       element.price = document.getElementById("event-price").value;
-  //       element.variants.forEach((e) => {
-  //         e.name = document.querySelector("variant-row__name").value;
-  //         e.qty = document.querySelector("variant-row__qty").value;
-  //         e.value = document.querySelector("variant-row__value").value;
-  //         e.type = document.querySelector("variant-row_type").value;
-  //       });
-  //     });
-  //   }
-  // });
+  events.forEach((element) => {
+    if (element.id == eventId) {
+
+      switchScreen("add");
+          document.getElementById('event-title').value=element.title;
+           document.getElementById('event-image').value=element.image;
+            document.getElementById('event-description').value=element.description;
+            document.getElementById('event-seats').value=element.seats;
+            document.getElementById('event-price').value=element.price;
+            // let inputhidden=document.createElement('input');
+            // inputhidden.setAttribute('type','hidden');
+            // inputhidden.setAttribute('data-event-id',element.id);
+ document.querySelector('[type="submit"]').textContent='Save Changes';
+      let variantssection = document.getElementById("variants-list");
+      variantssection.innerHTML = ""; 
+      element.variants.forEach((e) => {
+        let div = document.createElement("div");
+        div.classList.add("variant-row");
+            let selectedFixed=e.type==="fixed"?"selected":"";
+            let selectedPercentage=e.type==="percentage"?"selected":"";
+        div.innerHTML = `         <input type="text" value='${e.name}' class="input variant-row__name" placeholder="Variant name (e.g., 'Early Bird')" />
+                                        <input type="number" value=${e.qty} class="input variant-row__qty" placeholder="Qty" min="1" />
+                                        <input type="number" value='${e.value}' class="input variant-row__value" placeholder="Value" step="0.01" />
+                                        <select class="select variant-row__type">
+                                            <option value="fixed" ${selectedFixed}>Fixed Price</option>
+                                            <option value="percentage" ${selectedPercentage}>Percentage Off</option>
+                                        </select>
+                                        <button type="button" class="btn btn--danger btn--small variant-row__remove">Remove</button>`;
+        variantssection.appendChild(div);
+        document.querySelector('[type="submit"]').textContent='Save Changes';
+      });
+      
+      
+      document.getElementById("event-form").addEventListener("submit", () => {
+        element.title = document.getElementById("event-title").value;
+        element.image = document.getElementById("event-image").value;
+        element.description =
+          document.getElementById("event-description").value;
+        element.seats = document.getElementById("event-seats").value;
+        element.price = document.getElementById("event-price").value;
+         let rows = document.querySelectorAll(".variant-row");
+        for (let i = 0; i < rows.length; i++) {
+          let row = rows[i];
+          element.variants[i].name = row.querySelector(".variant-row__name").value;
+          element.variants[i].qty = row.querySelector(".variant-row__qty").value;
+          element.variants[i].value = row.querySelector(".variant-row__value").value;
+          element.variants[i].type = row.querySelector(".variant-row__type").value;
+        }
+        
+      });
+    }
+  });
 
   // 2. Populate form fields with event data
   // 3. Switch to 'add' screen
@@ -422,14 +440,17 @@ function editEvent(eventId) {
 function archiveEvent(eventId) {
   // TODO:
   // 1. Find event by id in events
-  // events.forEach((e) => {
-  //   if (e.id == eventId) {
-  //     let removed = events.splice(e.id, 1)[0];
-  //     console.log(removed);
-  //     archive.push(removed);
-  //     renderArchiveTable(archive);
-  //   }
-  // });
+  events.forEach((e) => {
+    if (e.id == eventId) {
+      let removed = events.splice(e, 1)[0];
+      renderEventsTable(events);
+      // console.log(removed);
+      archive.push(removed);
+      renderArchiveTable(archive);
+      //console.log(archive);
+      
+    }
+  });
   // 2. Move to archive array
   // 3. Remove from events array
   // 4. Save data
@@ -443,55 +464,52 @@ function archiveEvent(eventId) {
 function renderArchiveTable(archivedList) {
   // TODO:
   // Similar to but read-only
-  // Show "Restore" button instead of "Edit"/"Delete"
-  // archivedList.forEach((element, index) => {
-  //   let tablerow = document.createElement("tr");
-  //   tablerow.classList.add("table__row");
-  //   tablerow.setAttribute("data-event-id", element.id);
-  //   let tableid = document.createElement("td");
-  //   tableid.textContent = element.id;
-  //   tablerow.appendChild(tableid);
-  //   let tabletitle = document.createElement("td");
-  //   tabletitle.textContent = element.title;
-  //   tablerow.appendChild(tabletitle);
-  //   let tableseats = document.createElement("td");
-  //   tableseats.textContent = element.seats;
-  //   tablerow.appendChild(tableseats);
-  //   let tableprice = document.createElement("td");
-  //   tableprice.textContent = element.price;
-  //   tablerow.appendChild(tableprice);
-  //   let tablevariants = document.createElement("td");
-  //   tablevariants.innerHTML = `<ul></ul>`;
-  //   for (const elementvariant of element.variants) {
-  //     tablevariants.innerHTML += `<li>${elementvariant}</li>`;
-  //   }
-  //   tablerow.appendChild(tablevariants);
-  //   let restoreButton = document.createElement("button");
-  //   restoreButton.className.add("btn btn--small");
-  //   restoreButton.setAttribute("data-action", "restore");
-  //   restoreButton.setAttribute("data-event-id", element.id);
-  //   restoreButton.textContent = "Restore";
-  //   document.querySelector("#archive-table tbody").appendChild(tablerow);
+  // Show "Restore" button instead of "Edit"/"Delete"  
+  let archivetable=document.querySelector('#archive-table tbody');
+  archive.forEach((element)=>{
+     const table__row=document.createElement('tr');
+    table__row.classList.add('table__row');
+    table__row.setAttribute('data-event-id',element.id);
+    table__row.innerHTML=`<td>${element.id}</td>
+                                    <td>${element.title}</td>
+                                    <td>${element.seats}</td>
+                                    <td>${element.price}</td>
+                                    <td>
+                                        <button class="btn btn--small" data-action="restore" data-event-id=${element.id}>Restore</button>
+                                    </td>`;
+    // table__row.append(archiverow);
+     archivetable.append(table__row);  
+  })
+   //restoreEvent(eventId);
   //   renderPagination(eventList.length, page, perPage);
   // });
-  // document.querySelectorAll('[data-action="restore"]').forEach((button) => {
-  //   button.addEventListener("click", function () {
-  //     const eventId = this.getAttribute("data-event-id");
-  //     restoreEvent(eventId);
-  //   });
-  // });
+document.querySelectorAll('[data-action="restore"]').forEach((button) => {
+    button.addEventListener("click", function () {
+      //const eventId = this.getAttribute("data-event-id");
+      const eventId = this.dataset.eventId;
+      restoreEvent(eventId);
+      //console.log(eventIde);
+    })
+  })
 }
-
+  
+      
+      
+ 
+  
 function restoreEvent(eventId) {
   // TODO:
-  //   archive.forEach((e) => {
-  //     if (e.id == eventId) {
-  //       const restoredEvent = archive.splice(index, 1)[0];
-  //       events.push(restoredEvent);
-  //     }
-  //   });
-  //   renderEventsTable(eventList);
-  //   renderArchiveTable(archive);
+    archive.forEach((e) => {
+      if (e.id == eventId) {
+        const restoredEvent = archive.splice(e.id, 1)[0];
+        events.push(restoredEvent);
+        
+      }
+      
+    });
+    //
+    renderEventsTable(events);
+        renderArchiveTable(archive);
   // 1. Find event by id in archive
   // 2. Move back to events array
   // 3. Remove from archive
@@ -538,21 +556,58 @@ document.getElementById("event-modal").addEventListener("click", (e) => {
 function searchEvents(query) {
   // TODO:
   // Filter events by title (case-insensitive)
-  // let filteredbytitle = [];
-  // events.forEach((e) => {
-  //   if (e.title.toLowerCase() === query.toLowerCase()) {
-  //     filteredbytitle.push(e);
-  //   }
-  // });
+  let filteredbytitle = [];
+  events.forEach((e) => {
+    if (e.title.toLowerCase() === query.toLowerCase()) {
+      filteredbytitle.push(e);
+    }
+  });
   // // Return filtered array
-  // return filteredbytitle;
+  console.log(filteredbytitle);
+  
+   return filteredbytitle;
 }
 
 function sortEvents(eventList, sortType) {
   // TODO:
   // Sort by: title-asc, title-desc, price-asc, price-desc, seats-asc
   // Return sorted array
+  const sorted = [...eventList]; // clone to avoid mutating original
+
+  for (let i = 0; i < sorted.length - 1; i++) {
+    for (let j = 0; j < sorted.length - i - 1; j++) {
+      let shouldSwap = false;
+
+      switch (sortType) {
+        case 'title-asc':
+          shouldSwap = sorted[j].title.toLowerCase() > sorted[j + 1].title.toLowerCase();
+          break;
+        case 'title-desc':
+          shouldSwap = sorted[j].title.toLowerCase() < sorted[j + 1].title.toLowerCase();
+          break;
+        case 'price-asc':
+          shouldSwap = sorted[j].price > sorted[j + 1].price;
+          break;
+        case 'price-desc':
+          shouldSwap = sorted[j].price < sorted[j + 1].price;
+          break;
+        case 'seats-asc':
+          shouldSwap = sorted[j].seats > sorted[j + 1].seats;
+          break;
+      }
+
+      if (shouldSwap) {
+        const temp = sorted[j];
+        sorted[j] = sorted[j + 1];
+        sorted[j + 1] = temp;
+      }
+    }
+  }  
+  console.log(sorted);
+  
+  return sorted;
 }
+
 
 // Listen to search and sort changes
 document.getElementById("search-events").addEventListener("input", (e) => {
