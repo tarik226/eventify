@@ -1,7 +1,9 @@
 /* ============================================
    CSS VARIABLES & ROOT
    ============================================ */
-
+ .placeholderror{
+        color:red;
+    }
 :root {
   /* Colors */
   --color-bg: #ffffff;
